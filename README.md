@@ -10,8 +10,26 @@ Within each task folder, there will be a rough overview of the task, tools or pi
 
 ---
 # First-time Setup 
+Here is a guide to running a Jupyter Notebook on the compute nodes instead using the log-in cluster:
 
-## Connect to SSH
+1. Ensure Internet connection is routed via Salk Wifi or Salk VPN.
+2. start a new screen using:  `screen -R jbn`
+3. Request an interactive login to a compute cluster: `qlogin -l h_vmem=5G -q gale.q@gale-cluster-*.salk.edu -pe smp 5` (*replace asterisk (***) with username*)
+4. Activate desired conda environment
+   *(You can visualize all environments by `conda env list`)*
+5. Start your jupyter notebook by entering:  `jupyter notebook --ip 0.0.0.0 --no-browser --port 445928 --NotebookApp.max_buffer_size=26843545600`
+
+\
+*Note:\
+`--ip` must be 0.0.0.0 in order to work (localhost doesn't).\
+`--NotebookApp.max_buffer_size= 26843545600` is the number of bytes of memory requested.\
+R kernel in jupyter is a bit clunky so this must be specified or else the default max memory setting in R is very small.*
+
+
+
+# Known Issues
+
+## Unable to use `qlogin` (no command called `qlogin`):
 
 1. Open up terminal
 2. Enter text editor by command `sudo vi /etc/ssh/ssh_config` (or other text editor of your choice)
@@ -23,8 +41,6 @@ PubkeyAcceptedAlgorithms +ssh-rsa
 ```
 5. Press `Esc` to exit insert mode then save your changes with `ZZ` or `:wq`.
 
-# Known Issues
-
 ## jupyter environment launch issue
 
 Due to difference in conda environmets, sometimes there will be missing dependencies leading to error starting jupyter lab or jupyter notebook. 
@@ -35,4 +51,6 @@ e.g. between \
 `jupyter lab --ip 0.0.0.0 --no-browser --port 65535 --NotebookApp.max_buffer_size=26843545600` \
 and \
 `jupyter notebook --ip 0.0.0.0 --no-browser --port 65535 --NotebookApp.max_buffer_size=26843545600`
+
+
 
