@@ -25,6 +25,10 @@ Here is a guide to running a Jupyter Notebook on the compute nodes instead using
 `--NotebookApp.max_buffer_size= 26843545600` is the number of bytes of memory requested.\
 R kernel in jupyter is a bit clunky so this must be specified or else the default max memory setting in R is very small.*
 
+# Globus File Manager
+A platform enabling file transfers between servers, e.g. from local to GAL-E.
+![image](https://github.com/kqu18/Ecker_Methylation_Analysis/assets/104349171/11b953ee-c54b-49b1-b115-679c0f512821)
+
 
 
 # Known Issues
