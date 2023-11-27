@@ -19,6 +19,17 @@ demux script: `/gale/raidix/rdx-7/jwalker/Marchantia_reference/miseq_demux.sh`
 
 ---
 
+### Useful commands
+``
+`zcat`
+`| less`
+`grep`
+`ls -lsat`
+`history`
+`| head`
+
+---
+
 ### File Formats
 
 For background on file formats (FASTA, FASTQ, SAM) check [here](https://bioinformatics.stackexchange.com/questions/14/what-is-the-difference-between-fasta-fastq-and-sam-file-formats).
