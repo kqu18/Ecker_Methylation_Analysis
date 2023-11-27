@@ -63,10 +63,19 @@ r001  99  chr1  7 30  17M         =  37  39  TTAGATAAAGGATACTG   IIIIIIIIIIIIIII
 r002  0   chrX  9 30  3S6M1P1I4M  *  0   0   AAAAGATAAGGATA      IIIIIIIIII6IBI    NM:i:1
 ```
 
-### Step 1. mapping_config.ini
+### Step 1. Obtain FASTQ files
 
-change input and output directories to fit for specific project by modifying `.ini` file via nano.
+`samtools view novaseq_demux/NJ_221007_P1-1-K15/bam/NJ_221007_P1-1-K15-E2.dna_reads.bam | less`
 
-### Step 2. Demultiplex
+### Step 2. Login
+`qlogin -l h_vmem=4G`
+
+### Step 3. Demux
+
+before running, change input and output directories to fit for specific project by modifying `.ini` file via nano.
+
+
+`yap demultiplex -fq "/gale/netapp/seq12/illumina_runs/230523_A00280_0656_AH7CLYDSX7_230525125757678577423/Pool_arab_7/*.fastq.gz" -config ./mappingconfig_marchantia_mCT_Nova.ini -o Novaseq_demux_mCT  -j 16`
+
 
 
