@@ -69,6 +69,8 @@ Several options. Download from internet, use pre-existing dataset, etc.
 
 `samtools view novaseq_demux/NJ_221007_P1-1-K15/bam/NJ_221007_P1-1-K15-E2.dna_reads.bam | less`
 
+[EdgeTurbo](https://ngdc.cncb.ac.cn/ettrans/files/edgeturbo%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%88linux%E7%89%88%EF%BC%89%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.pdf)
+
 ### Step 2. Login
 `qlogin -l h_vmem=4G`
 
