@@ -70,12 +70,19 @@ r002  0   chrX  9 30  3S6M1P1I4M  *  0   0   AAAAGATAAGGATA      IIIIIIIIII6IBI 
 ### Step 2. Login
 `qlogin -l h_vmem=4G`
 
-### Step 3. Demux
+### Step 3. Run script for demultiplexing
 
 before running, change input and output directories to fit for specific project by modifying `.ini` file via nano.
 
 
+
+`qsub -V -cwd -l mem_free=100G,h_vmem=100G,qname=gale.q miseq_demux.sh`
+
+miseq_demux.sh:
+
 `yap demultiplex -fq "/gale/netapp/seq12/illumina_runs/230523_A00280_0656_AH7CLYDSX7_230525125757678577423/Pool_arab_7/*.fastq.gz" -config ./mappingconfig_marchantia_mCT_Nova.ini -o Novaseq_demux_mCT  -j 16`
 
+check status by:
+`qstat -u jwalker`
 
 
