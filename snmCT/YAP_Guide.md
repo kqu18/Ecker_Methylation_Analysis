@@ -65,15 +65,16 @@ r002  0   chrX  9 30  3S6M1P1I4M  *  0   0   AAAAGATAAGGATA      IIIIIIIIII6IBI 
 
 ### Step 1. Obtain FASTQ files
 
+Several options. Download from internet, use pre-existing dataset, etc.
+
 `samtools view novaseq_demux/NJ_221007_P1-1-K15/bam/NJ_221007_P1-1-K15-E2.dna_reads.bam | less`
 
 ### Step 2. Login
 `qlogin -l h_vmem=4G`
 
-### Step 3. Run script for demultiplexing
+### Step 3. Setup mapping config and run script for demultiplexing
 
 before running, change input and output directories to fit for specific project by modifying `.ini` file via nano.
-
 
 
 `qsub -V -cwd -l mem_free=100G,h_vmem=100G,qname=gale.q miseq_demux.sh`
@@ -84,5 +85,30 @@ miseq_demux.sh:
 
 check status by:
 `qstat -u jwalker`
+
+### mapping via qsub
+
+After demultiplexing, all the snakemake command is also summarized in the `{output_dir}/snakemake/qsub` directory. 
+
+```
+conda activate mapping
+qsub qsub.sh
+```
+
+The hallmark of successful snakemake execution is the existence of an MappingSummary.csv.gz in that sub-directory. Because this file is the final target of the snakemake. This file will only occur when all the previous mapping commands are executed successfully.
+
+### check result
+
+Each cell will have two FASTQ files in the output directory, with a fixed name pattern:
+
+{cell_id}-R1.fq.gz for R1
+{cell_id}-R2.fq.gz for R2
+
+If error, check `Novaseq_demux_mCT_0.error.log`.
+
+If error with Snakefile, make updates with `yap update-snakemake`[ref](https://snakemake.readthedocs.io/en/stable/).
+
+
+
 
 
