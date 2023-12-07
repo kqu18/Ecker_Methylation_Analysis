@@ -92,12 +92,65 @@ Several options. Download from internet, use pre-existing dataset, etc.
 
 `samtools view novaseq_demux/NJ_221007_P1-1-K15/bam/NJ_221007_P1-1-K15-E2.dna_reads.bam | less`
 
+For NovaSeq, each set has 2 * N_lane files, N_lane depends on the flowcell used and the way of loading.
+
 [EdgeTurbo](https://ngdc.cncb.ac.cn/ettrans/files/edgeturbo%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%88linux%E7%89%88%EF%BC%89%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.pdf)
+
+---
 
 ### Step 2. Login
 `qlogin -l h_vmem=4G`
 
-### Step 3. Setup mapping config and run script for demultiplexing
+---
+
+### Step. 3 Demultiplex
+
+`yap demultiplex` 
+
+Purpose:
+This step further demultiplex random index on the 5' of R1, generating cell-level R1 and R2 FASTQ files.
+The random index is trimmed after demultiplex. The random index name occurs at the FASTQ file name, which combines with previous information to form the cell id.
+
+This step also prepares Snakefiles that contain all the commands for mapping (using [snakemake](https://snakemake.github.io)).
+
+Result:
+
+Each cell will have two FASTQ files in the output directory, with a fixed name pattern:
+{cell_id}-R1.fq.gz for R1
+{cell_id}-R2.fq.gz for R2
+
+```
+output_dir
+├── CEMBA200709_9E_4-1-E18  # a set of FASTQ files
+│   ├── fastq
+|   |   ├──{cell1}-R1.fq.gz
+|   |   ├──{cell1}-R2.fq.gz
+|   |   ├──{cell2}-R1.fq.gz
+|   |   ├──{cell2}-R2.fq.gz
+|   |   ├──...
+|   |   ├── skipped  # some FASTQ files may be skipped due to too less or too much reads
+|   |   |   ├──...
+│   └── Snakefile  # command files for snakemake
+├── (Other sets)
+│   ├── fastq
+|   |   ├──...
+|   |   ├── skipped
+|   |   |   ├──...
+│   └── Snakefile
+├── mapping_config.ini  # mapping config copied here
+├── snakemake  # this only occur when using yap in Ecker Lab server
+│   ├── qsub  # job script for qsub on gale
+│   └── sbatch  # job script for sbatch on stampede2
+└── stats  # place for summary stats
+    ├── demultiplex.stats.csv
+    ├── fastq_dataframe.csv
+    └── UIDTotalCellInputReadPairs.csv
+
+```
+
+---
+
+### Step 3. Setup mapping config and run script for mapping
 
 before running, change input and output directories to fit for specific project by modifying `.ini` file via nano.
 
