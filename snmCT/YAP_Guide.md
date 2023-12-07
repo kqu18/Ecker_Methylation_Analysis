@@ -116,9 +116,15 @@ This step also prepares Snakefiles that contain all the commands for mapping (us
 Result:
 
 Each cell will have two FASTQ files in the output directory, with a fixed name pattern:
+
 {cell_id}-R1.fq.gz for R1
 {cell_id}-R2.fq.gz for R2
 
+If error, check `Novaseq_demux_mCT_0.error.log`.
+
+If error with Snakefile, make updates with `yap update-snakemake`[ref](https://snakemake.readthedocs.io/en/stable/).
+
+example output dir:
 ```
 output_dir
 ├── CEMBA200709_9E_4-1-E18  # a set of FASTQ files
@@ -164,7 +170,9 @@ miseq_demux.sh:
 check status by:
 `qstat -u jwalker`
 
-### mapping via qsub
+---
+
+### Step 4. mapping via qsub
 
 After demultiplexing, all the snakemake command is also summarized in the `{output_dir}/snakemake/qsub` directory. 
 
@@ -173,18 +181,18 @@ conda activate mapping
 qsub qsub.sh
 ```
 
-The hallmark of successful snakemake execution is the existence of an MappingSummary.csv.gz in that sub-directory. Because this file is the final target of the snakemake. This file will only occur when all the previous mapping commands are executed successfully.
+The hallmark of successful snakemake execution is the existence of an _`MappingSummary.csv.gz`_ in that sub-directory. Because this file is the final target of the snakemake. This file will only occur when all the previous mapping commands are executed successfully.
 
-### check result
+---
 
-Each cell will have two FASTQ files in the output directory, with a fixed name pattern:
+### Step 5. check result via MappingSummary.csv.gz
 
-{cell_id}-R1.fq.gz for R1
-{cell_id}-R2.fq.gz for R2
+`yap summary -h`
 
-If error, check `Novaseq_demux_mCT_0.error.log`.
+-It creates a total mapping summary file that contains all the mapping metrics for all cells in your library. This file will be saved into {output_dir}/stats/MappingSummary.csv.gz
+- It uses a notebook template (or you can provide one by yourself) to generate some plots for visualizing some of the key mapping metrics.
 
-If error with Snakefile, make updates with `yap update-snakemake`[ref](https://snakemake.readthedocs.io/en/stable/).
+
 
 
 
