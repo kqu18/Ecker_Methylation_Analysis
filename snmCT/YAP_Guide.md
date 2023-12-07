@@ -83,6 +83,8 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII6IBI
 r001  99  chr1  7 30  17M         =  37  39  TTAGATAAAGGATACTG   IIIIIIIIIIIIIIIII
 r002  0   chrX  9 30  3S6M1P1I4M  *  0   0   AAAAGATAAGGATA      IIIIIIIIII6IBI    NM:i:1
 ```
+**
+[ALLC](https://hq-1.gitbook.io/mc/tech-background/file-formats#allc-file)
 
 ### Step 1. Obtain FASTQ files
 
