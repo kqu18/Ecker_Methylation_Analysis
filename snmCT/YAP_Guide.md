@@ -1,11 +1,13 @@
 # YAP tutorial
 This document will be a walkthrough of how to process snmCT data with [YAP](https://hq-1.gitbook.io/mc/). 
 
+YAP is a full pipeline designed for raw sequencing data (BCL files and raw FASTQ files before demultiplex) generated in the Ecker Lab.
+
 You should work within `/ceph/MethDev/` after `qlogin` but you will still be able to access `gale`.
 
 ---
 
-### Directories for directories
+## Directories for directories
 
 Arabidopsis: `/gale/netapp/seq12/illumina_runs/231018_A00280_0684_AHMVJJDSX7_231020150849695149110/Pool_arab_9/`
 
@@ -19,7 +21,7 @@ demux script: `/gale/raidix/rdx-7/jwalker/Marchantia_reference/miseq_demux.sh`
 
 ---
 
-### Useful commands
+## Useful commands
 ``
 `zcat`
 `| less`
@@ -30,9 +32,18 @@ demux script: `/gale/raidix/rdx-7/jwalker/Marchantia_reference/miseq_demux.sh`
 
 ---
 
-### File Formats
+## File Formats
 
 For background on file formats (FASTA, FASTQ, SAM) check [here](https://bioinformatics.stackexchange.com/questions/14/what-is-the-difference-between-fasta-fastq-and-sam-file-formats).
+
+### 1. FAST-A format
+
+Here are some key points to keep in mind when working with FASTA files:
+
+- Each entry begins with a header line starting with ">".
+- The header line is followed by the identifier of sequence data.
+- Sequences can be represented in uppercase or lowercase letters.
+- Whitespace, including spaces and line breaks, can be present in the sequence data, but it's often ignored by most sequence analysis tools.
 
 *FASTA Example: *
 ```
@@ -43,6 +54,16 @@ CCAGCACCTCCA
 GGGGGATTAGCTCAAATGGTAGAGCGCTCGCTTAGCATGCAAGAGGtAGTGGGATCGATG
 CCCACATCCTCCA
 ```
+
+### 1. FAST-Q format
+
+Here are some key points to keep in mind when working with FASTA files:
+- A sequence identifier or header line begins with the "@" symbol. It provides a unique identifier for the sequence.
+- then sequenced data is provided
+- A line starts with the "+" symbol and is often a repeat of the header line. It serves as a separator between the sequence and the quality scores.
+- Lastly, quality scores. The quality scores are encoded using ASCII characters, with each character representing a numerical value that indicates the confidence or accuracy of the base call.
+  
+
 *FASTQ Example:  (Q for Quality)*
 ```
 @071112_SLXA-EAS1_s_7:5:1:817:345
