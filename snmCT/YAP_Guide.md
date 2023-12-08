@@ -105,6 +105,8 @@ For NovaSeq, each set has 2 * N_lane files, N_lane depends on the flowcell used 
 
 ### Step. 3 Demultiplex
 
+Demultiplexing refers to the step in processing where you’d use the barcode information in order to know which sequences came from which samples after they had all be sequenced together. Barcodes refer to the unique sequences that were ligated to your each of your invidivual samples’ genetic material before the samples got all mixed together. Depending on your sequencing facility, you may get your samples already split into individual fastq files, or they may be lumped together all in one fastq file with barcodes still attached for you to do the splitting. If this is the case, you should also have a “mapping” file telling you which barcodes correspond with which samples. Here we’re going to cover one way in which to demultiplex your samples.
+
 `yap demultiplex` 
 
 Purpose:
