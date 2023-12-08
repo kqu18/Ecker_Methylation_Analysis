@@ -1,3 +1,8 @@
+# location: (temp)
+
+`/gale/netapp/home2/jwalker/`
+
+
 # qlogin
 
 1. `qlogin -l h_vmem=120G -l h=gale-10`
