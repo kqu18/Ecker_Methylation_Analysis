@@ -1,3 +1,9 @@
+# First-time setup:
+- login to br1, then `qlogin`
+- install `conda` or set env $PATH through your supervisor's conda (Jimmy's conda was used for this example)
+- if conda fails to self-boot, use `source ./bashrc`
+
+
 # location: (temp)
 
 `/gale/netapp/home2/jwalker/`
