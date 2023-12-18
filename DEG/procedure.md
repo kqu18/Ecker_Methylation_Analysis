@@ -1,7 +1,9 @@
 # First-time setup:
-- login to br1, then `qlogin`
+- login to br1, then `qlogin -l h_vmem=50G`
 - install `conda` or set env $PATH through your supervisor's conda (Jimmy's conda was used for this example)
 - if conda fails to self-boot, use `source ./bashrc`
+- `conda activate mapping_login`
+- jupyter lab --port=8886 --no-browser --ip `hostname`
 
 
 # location: (temp)
