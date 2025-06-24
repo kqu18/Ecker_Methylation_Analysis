@@ -57,4 +57,13 @@ and \
 `jupyter notebook --ip 0.0.0.0 --no-browser --port 65535 --NotebookApp.max_buffer_size=26843545600`
 
 
+# 2025 Summer Task uodate
+## Todo:
+- based on new data, transform .tar.gz files to .gff files first.
+- preemptively use methylpy to perform DMG analysis, taking dimentions such as:
+- euchromatin vs heterochromatin,
+- gene vs transposon,
+- methylation level per cluster
+
+
 
