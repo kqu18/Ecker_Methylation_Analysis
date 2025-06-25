@@ -64,6 +64,10 @@ and \
 - euchromatin vs heterochromatin,
 - gene vs transposon,
 - methylation level per cluster
+- 
+
+### qsub
+qsub -V -cwd -l mem_free=10G,h_vmem=10G,qname=gale.q YOUR_SCRIPT.sh
 
 
 
