@@ -64,7 +64,11 @@ and \
 - euchromatin vs heterochromatin,
 - gene vs transposon,
 - methylation level per cluster
-- 
+
+### current location
+/ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/
+---
+
 
 ### qsub
 qsub -V -cwd -l mem_free=10G,h_vmem=10G,qname=gale.q YOUR_SCRIPT.sh
