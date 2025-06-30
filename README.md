@@ -76,6 +76,9 @@ qsub -N NAME -V -cwd -l mem_free=10G,h_vmem=10G,qname=gale.q YOUR_SCRIPT.sh
 ### conda environment
 conda activate /gale/netapp/home/kqu/miniconda3/envs/yap
 
+### file location
+cd /ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/
+
 ### allc format
 chromosome    position    strand    context    mc_count    total_count    methylated
 `chr1    10468    +    CG    10    12    1`
