@@ -71,7 +71,7 @@ and \
 
 
 ### qsub
-qsub -V -cwd -l mem_free=10G,h_vmem=10G,qname=gale.q YOUR_SCRIPT.sh
+qsub -N NAME -V -cwd -l mem_free=10G,h_vmem=10G,qname=gale.q YOUR_SCRIPT.sh
 
 ### conda environment
 conda activate /gale/netapp/home/kqu/miniconda3/envs/yap
