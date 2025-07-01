@@ -27,19 +27,19 @@ To start having fun with allc data processing, you'd have to follow some steps t
 
 
 # `allc_merge.sh`
-
+*Jimmy's legacy code.*
 This shell script runs `allcools merge-allc` to merge `.allc.tsv.gz` files for 16 clusters using input path files (e.g., `clst0_allc_paths.txt`). **If you need parallel processing via the cluster see `allc_singular.sh` and `allc_submit.sh`.**
 
 # `allc_merge_per_genotype.sh`
 
-This script merges `.allc.tsv.gz` files for a **single cluster per genotype** using `allcools merge-allc`. It is designed to be callable with `allc_submit.sh` as batch jobs.
+This script merges `.allc.tsv.gz` files for a **single cluster per each of the three genotype\*** using `allcools merge-allc`. It is designed to be callable with `allc_submit.sh` as batch jobs.
 
 ## Usage
 
 if you need to just process a single cluster, pass the cluster number via the `CLST` environment variable:
 
 ```bash
-qsub -v CLST=X allc_merge_singular.sh
+qsub -N NAME -V -cwd -l mem_free=10G,h_vmem=10G,qname=gale.q -v YOUR_VARIABLE=X YOUR_SCRIPT.sh
 ````
 
 The script will:
@@ -53,15 +53,15 @@ The script will:
 
 `  /gale/raidix/rdx-7/tnobori/tools/YAP/reference_files/Arabidopsis_thaliana.TAIR10.dna.toplevel_chrL_appended_sizes.genome`
 
-* Genotypes: col, met, rdd
+**\*** Genotypes: col, met, rdd
 
 ```
 
-> *insightful quote from jimmy:*
+> *insightful quote from ChatGPT's interpretive hallucination of Jimmy:*
 >
 > "One cluster, one shot, one genome — no retries."
 >
-> — *James Walker, 2025*
+> — *Not James Walker, 2025*
 
 ```
 # `allc_submit.sh`
