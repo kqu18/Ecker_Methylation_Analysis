@@ -30,9 +30,9 @@ To start having fun with allc data processing, you'd have to follow some steps t
 
 This shell script runs `allcools merge-allc` to merge `.allc.tsv.gz` files for 16 clusters using input path files (e.g., `clst0_allc_paths.txt`). **If you need parallel processing via the cluster see `allc_singular.sh` and `allc_submit.sh`.**
 
-# `allc_merge_singular.sh`
+# `allc_merge_per_genotype.sh`
 
-This script merges `.allc.tsv.gz` files for a **single cluster** using `allcools merge-allc`. It is designed to be callable with `allc_submit.sh` as batch jobs.
+This script merges `.allc.tsv.gz` files for a **single cluster per genotype** using `allcools merge-allc`. It is designed to be callable with `allc_submit.sh` as batch jobs.
 
 ## Usage
 
@@ -53,7 +53,7 @@ The script will:
 
 `  /gale/raidix/rdx-7/tnobori/tools/YAP/reference_files/Arabidopsis_thaliana.TAIR10.dna.toplevel_chrL_appended_sizes.genome`
 
-* Output directory: `merged_allc_by_clst_debug/` (custom for debugging)
+* Genotypes: col, met, rdd
 
 ```
 
@@ -155,3 +155,8 @@ Creates 3 files per cluster in `path_allc_bam_genotype_clst/`, e.g.:
 * Lines without an `mct_x_y` pattern are skipped with a warning.
 * Make sure all file paths and formats follow the expected conventions.
 
+# Other Miscellaneous useful life hacks
+
+## qsub:
+- check task ID with certain keyword: `qstat -u $USER | grep KEYWORD | awk '{print $1}'`
+- delete task ID with certain keyword:`qstat -u $USER | grep mrg | awk '{print $1}' | xargs qdel` (*Do not delete all tasks or Jimmy will be mad!!!*)
