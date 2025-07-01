@@ -16,7 +16,7 @@ To start having fun with allc data processing, you'd have to follow some steps t
 
 4. `cd /ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/`
 
-5.  `qsub -N NAME -V -cwd -l mem_free=10G,h_vmem=10G,qname=gale.q YOUR_SCRIPT.sh` (for heavy tasks)
+5.  `qsub -N NAME -V -cwd -l mem_free=10G,h_vmem=10G,qname=gale.q -v YOUR_VARIABLE=X YOUR_SCRIPT.sh` (for heavy tasks)
 
 ---
 
