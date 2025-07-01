@@ -4,7 +4,7 @@ To start having fun with allc data processing, you'd have to follow some steps t
 
 1. connect to a Salk domain Wi-Fi.
 
-      *Note: use vpn outside of salk for server access.*
+      *Note: use Cisco Anyconnect 4.X outside of salk for server access.*
    
 2. `ssh` login with your credentials.
 
