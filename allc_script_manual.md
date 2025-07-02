@@ -4,7 +4,7 @@
 ## Directories
 
 ### Part 1. Background and Environment Setup
-- [Background on AllCools](#background---allcools)
+- [AllCools and its data structures](#background---allcools)
 - [Setup Instructions](#prerequisites)  
   → SSH, qlogin, and working directory setup.
 
@@ -47,10 +47,129 @@
 
 ---
 # Background - AllCools
-its cool
+## 📦 What is `allcools`?
+
+[`allcools`](https://github.com/methylgrammarlab/allcools) is a command-line toolkit for efficient and scalable processing of **single-cell and bulk DNA methylation data** in the `allc` file format. It is designed to support workflows for:
+
+- Parsing and merging `.allc.tsv.gz` files
+- Genome-wide methylation aggregation
+- GFF file generation for visualization and analysis
+- Integration with downstream tools (e.g., methylation clocks, clustering, etc.)
+
+It supports parallelization and large-scale processing using cluster computing environments like SGE or SLURM.
+
+---
+
+## 📄 What are `.allc.tsv.gz` Files?
+
+`.allc.tsv.gz` files (referred to as **allc files**) are the output of single-cell or bulk methylation processing pipelines (e.g., from `methylpy`). Each file contains **per-cytosine** methylation information across the genome for a given sample or cell.
+
+These files are **tab-separated**, compressed with `gzip`, and are structured for fast aggregation and filtering.
+
+---
+
+## 🧬 Format of a Typical `.allc` File
+
+Each `.allc.tsv.gz` file typically contains the following **6 columns**:
+
+| Column # | Name                  | Description |
+|----------|-----------------------|-------------|
+| 1        | `chrom`               | Chromosome name (e.g., `chr1`, `chr3`, `chrM`) |
+| 2        | `pos`                 | 1-based genomic coordinate of the cytosine |
+| 3        | `strand`              | DNA strand: `+` or `-` |
+| 4        | `context`             | Sequence context of the cytosine site (e.g., `CG`, `CHG`, `CHH`) |
+| 5        | `mc`                  | Number of **methylated** reads at this position |
+| 6        | `cov`                 | Total number of reads covering this position (methylated + unmethylated) |
+
+---
+
+### 📝 Example Row
+
+```tsv
+chr1    10468   +   CG  3   5
+```
+
+This means:
+
+- Chromosome: `chr1`
+- Position: `10468`
+- Strand: `+`
+- Context: `CG`
+- 3 methylated reads out of 5 total reads at that cytosine site
+
+---
+
+## 🧪 Notes
+
+- We use the three contexts (`CG`, `CHG`, `CHH`) but allcools files might contain raw nucleobases which requires conversion.
+
+---
 
 
-# Prerequisites
+## 📂 What are GFF Files?
+
+GFF stands for **General Feature Format** — a standard tab-delimited format used to describe features (e.g., genes, regions, windows) on a genome. In the context of **DNA methylation analysis**, especially when using [`allcools`](https://github.com/methylgrammarlab/allcools), GFF files are used to represent **binned or windowed methylation levels** across the genome for visualization and analysis.
+
+These files are typically generated using `allcools gff-create`, and are compatible with genome browsers or plotting tools.
+
+---
+
+## 🗂️ Structure of a Typical GFF File
+
+Each GFF file line represents a **genomic window** (e.g., 100bp or 1000bp) with aggregated methylation statistics. `allcools`-generated GFF files often use a **custom GFF-like format** optimized for methylation.
+
+A typical `.gff` file contains the following **9 columns**:
+
+| Column # | Name         | Description |
+|----------|--------------|-------------|
+| 1        | `seqname`    | Chromosome or scaffold name (e.g., `chr1`) |
+| 2        | `source`     | Source of annotation (commonly `allcools`) |
+| 3        | `feature`    | Feature type (e.g., `methylation`) |
+| 4        | `start`      | Start position of the window (1-based) |
+| 5        | `end`        | End position of the window |
+| 6        | `score`      | Methylation score (e.g., methylation ratio) |
+| 7        | `strand`     | Strand (`+` or `.` — often strandless for methylation) |
+| 8        | `frame`      | Always `.` — unused |
+| 9        | `attribute`  | Key-value pairs (e.g., `context=CG;mc=25;cov=50`) |
+
+---
+
+### 📝 Example Row
+
+```tsv
+chr1    allcools    methylation    1000    1100    0.5    .    .    context=CG;mc=25;cov=50
+```
+
+This describes:
+
+- A 100bp window on `chr1`, from position 1000 to 1100
+- Aggregated **CG methylation** ratio of `0.5` (25/50 reads methylated)
+- Metadata in `attribute` field: context type, methylated count (`mc`), total coverage (`cov`)
+
+---
+
+## 🧪 Common Use Cases
+
+- Visualizing genome-wide methylation in tools like IGV or UCSC Genome Browser
+- Comparing methylation patterns between cell types or genotypes
+- Feeding into downstream analysis pipelines (e.g., DMR calling)
+
+---
+
+## 🏷️ GFF File Variants
+
+When generating GFFs with `allcools`, you might see variations like:
+
+- `w100.gff` → 100bp windows  
+- `w1.gff` → single-base resolution  
+- Context-specific GFFs: `CG.gff`, `CHG.gff`, `CHH.gff`
+
+These are usually generated **per cluster and genotype** using `gff_creator.sh`.
+
+---
+
+
+# Prerequisites/setup
 
 To start having fun with allc data processing, you'd have to follow some steps to get started. 
 
@@ -76,12 +195,13 @@ To start having fun with allc data processing, you'd have to follow some steps t
 
 
 ---
+# Shell scripts
 
-# `parse_allc_by_genotype.sh`
+## `parse_allc_by_genotype.sh`
 
 This shell script takes in a directory containing multiple `...allc_paths.txt`, each containing `allc.tsv.gz` files and parses them by cluster (clst0, clst1...) and genotype (`col`, `rdd`, `met`) using `mct_x_y` identifiers embedded in the file paths.
 
-## Example Directory Structure
+### Example Directory Structure
 
 ```
 /ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/
@@ -98,7 +218,7 @@ Each line in the .txt files is a full path like:
 ```
 /.../mCT_with_TE/240614_mct_1_2_P1-2-O5/allc/240614_mct_1_2_P1-2-O5-H3.allc.tsv.gz
 ```
-## How It Classifies
+### How It Classifies
 The script classifies genotype based on the `mct_x_y` portion:
 
 * `mct_1_y` → `col`
@@ -111,7 +231,7 @@ The script classifies genotype based on the `mct_x_y` portion:
 >
 > ---James walker, 2025
 
-## Running the Script
+### Running the Script
 
 1. Make sure the output directory exists:
 
@@ -125,7 +245,7 @@ The script classifies genotype based on the `mct_x_y` portion:
    ./parse_allc_by_genotype.sh
    ```
 
-## Output
+### Output
 
 Creates 3 files per cluster in `path_allc_bam_genotype_clst/`, e.g.:
 
@@ -133,7 +253,7 @@ Creates 3 files per cluster in `path_allc_bam_genotype_clst/`, e.g.:
 * `clst0_rdd_allc_paths.txt`
 * `clst0_met_allc_paths.txt`
 
-## Notes
+### Notes
 
 * Lines without an `mct_x_y` pattern are skipped with a warning.
 * Make sure all file paths and formats follow the expected conventions.
@@ -141,16 +261,16 @@ Creates 3 files per cluster in `path_allc_bam_genotype_clst/`, e.g.:
 ---
 
 
-# `allc_merge.sh`
+## `allc_merge.sh`
 *Jimmy's legacy code.*
 
 This shell script runs `allcools merge-allc` to merge `.allc.tsv.gz` files for 16 clusters using input path files (e.g., `clst0_allc_paths.txt`). **If you need parallel processing via the cluster or merge with specififc genotypes see `allc_merge_per_genotype.sh` and `allc_submit.sh`.**
 
-# `allc_merge_per_genotype.sh`
+## `allc_merge_per_genotype.sh`
 
 This script merges `.allc.tsv.gz` files for a **single cluster per each of the three genotype\* (specified below)** using `allcools merge-allc`. It is designed to be callable with `allc_submit.sh` as batch jobs.
 
-## Usage
+### Usage
 
 if you need to just process a single cluster, pass the cluster number via the `CLST` environment variable:
 
@@ -165,7 +285,7 @@ The script will:
 * Run `allcools merge-allc`
 * Log the output to ./logs
 
----
+### Notes
 
 Chromosome data: `  /gale/raidix/rdx-7/tnobori/tools/YAP/reference_files/Arabidopsis_thaliana.TAIR10.dna.toplevel_chrL_appended_sizes.genome`
 
@@ -180,16 +300,16 @@ Chromosome data: `  /gale/raidix/rdx-7/tnobori/tools/YAP/reference_files/Arabido
 
 ---
 
-# `allc_submit.sh`
+## `allc_submit.sh`
 
 This script submits **one job per cluster** to merge `.allc.tsv.gz` files using `allc_merge_per_genotype.sh`. Of course, you can automate other scripts by changing the script to run. 
 
-## What It Does
+### What It Does
 
 - Loops over clusters and submits a job (`qsub`) for each cluster
 - Passes the cluster ID to the script via the `CLST` environment variable
 
-## Outputs
+### Outputs
 
 - Merged `.allc.tsv.gz` files saved to:  
   `/ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/merged_allc_by_clst_genotype/clstX.GENOTYPE.allc.tsv.gz`
@@ -199,32 +319,32 @@ This script submits **one job per cluster** to merge `.allc.tsv.gz` files using 
 
 ---
 
-# `gff_creator.sh`
+## `gff_creator.sh`
 
-## What it does
+### What it does
 - takes all allc files from e.g. `$MERGED_DIR`
 - creates w1 and w100 windowed gff files per methylation context per genotype.
 
-## Outputs
+### Outputs
 - gff files saved to `./gffs_by_clst_genotype`
 
 ---
 
-# `gff_submit.sh`
+## `gff_submit.sh`
 
 This script submits **one job per cluster** to create gff files using `gff_creator.sh`. Of course, you can automate other scripts by changing the script to run. 
 
-## What It Does
+### What It Does
 
 - Loops over clusters and submits a job (`qsub`) for each cluster
 - Passes the cluster ID to the script via the `CLST` environment variable
 
-## Outputs
+### Outputs
 - follows the script ran.
 
 
-# Other Miscellaneous useful life hacks
+## Other Miscellaneous useful life hacks
 
-## qsub:
+### qsub:
 - check task ID with certain keyword: `qstat -u $USER | grep KEYWORD | awk '{print $1}'`
 - delete task ID with certain keyword:`qstat -u $USER | grep mrg | awk '{print $1}' | xargs qdel` (*Do not delete all tasks or Jimmy will be mad!!!*)
