@@ -1,39 +1,15 @@
-# Prerequisites
-
-To start having fun with allc data processing, you'd have to follow some steps to get started. 
-
-1. connect to a Salk domain Wi-Fi.
-
-      *Note: use Cisco Anyconnect 4.X outside of salk for server access.*
-   
-2. `ssh` login with your credentials.
-
-      This gives you access to salk server.
-   
-3. `qlogin -l h_vmem=30G`
-
-   This connects you to a login node for lightweight tasks and file access. Use `qsub` to connect to SGE 8.1.6 — Sun Grid Engine for heavy computation tasks.
-
-4. `cd /ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/`
-
-5.  `qsub -N NAME -V -cwd -l mem_free=10G,h_vmem=10G,qname=gale.q -v YOUR_VARIABLE=X YOUR_SCRIPT.sh` (for heavy tasks)
-
----
-
-**for the remaining manual, refer to current working directory as `/ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/`*
 
 
----
+## Directories for everything in this manual
+click on the links for details.
 
-## 📑 Manual Index
-
-### 🧠 Prerequisites & Setup
+### Part 1. Prerequisites & Setup
 - [Setup Instructions](#prerequisites)  
   → SSH, qlogin, and working directory setup.
 
 ---
 
-### 🛠️ Script Collection
+### Part 2. Scripts
 
 #### 🔁 Processing Scripts
 - [`parse_allc_by_genotype.sh`](#parse_allc_by_genotypesh)  
@@ -66,6 +42,34 @@ To start having fun with allc data processing, you'd have to follow some steps t
 - [Helpful Quotes](#how-it-classifies)  
   → Wisdom from Jimmy (real and imagined).
 
+
+
+---
+
+
+# Prerequisites
+
+To start having fun with allc data processing, you'd have to follow some steps to get started. 
+
+1. connect to a Salk domain Wi-Fi.
+
+      *Note: use Cisco Anyconnect 4.X outside of salk for server access.*
+   
+2. `ssh` login with your credentials.
+
+      This gives you access to salk server.
+   
+3. `qlogin -l h_vmem=30G`
+
+   This connects you to a login node for lightweight tasks and file access. Use `qsub` to connect to SGE 8.1.6 — Sun Grid Engine for heavy computation tasks.
+
+4. `cd /ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/`
+
+5.  `qsub -N NAME -V -cwd -l mem_free=10G,h_vmem=10G,qname=gale.q -v YOUR_VARIABLE=X YOUR_SCRIPT.sh` (for heavy tasks)
+
+---
+
+**for the remaining manual, refer to current working directory as `/ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/`*
 
 
 ---
