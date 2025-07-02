@@ -25,10 +25,17 @@ To start having fun with allc data processing, you'd have to follow some steps t
 
 ---
 
-## 📘 Script Index
+## 📑 Manual Index
 
-Quick links to main shell script descriptions in this manual:
+### 🧠 Prerequisites & Setup
+- [Setup Instructions](#prerequisites)  
+  → SSH, qlogin, and working directory setup.
 
+---
+
+### 🛠️ Script Collection
+
+#### 🔁 Processing Scripts
 - [`parse_allc_by_genotype.sh`](#parse_allc_by_genotypesh)  
   → Parses `allc.tsv.gz` paths by cluster and genotype.
 
@@ -36,16 +43,30 @@ Quick links to main shell script descriptions in this manual:
   → Merges all `.allc.tsv.gz` files per cluster using `allcools merge-allc`.
 
 - [`allc_merge_per_genotype.sh`](#allc_merge_per_genotypesh)  
-  → Merges `.allc.tsv.gz` files per **genotype** within a single cluster.
+  → Merges `.allc.tsv.gz` by **genotype** within a single cluster.
 
+#### 📤 Submission Wrappers
 - [`allc_submit.sh`](#allc_submitsh)  
-  → Submits one merge job per cluster using the above script.
-
-- [`gff_creator.sh`](#gff_creatorsh)  
-  → Creates `.gff` files from merged allc files for each genotype/context.
+  → Submits one job per cluster for genotype-specific merges.
 
 - [`gff_submit.sh`](#gff_submitsh)  
-  → Submits one GFF creation job per cluster using the above script.
+  → Submits one job per cluster to run `gff_creator.sh`.
+
+#### 🧬 Output Generators
+- [`gff_creator.sh`](#gff_creatorsh)  
+  → Generates `.gff` files (w1 and w100) per context and genotype.
+
+---
+
+### 🧷 Miscellaneous & Tips
+
+- [Qsub Command Tips](#other-miscellaneous-useful-life-hacks)  
+  → Filter or delete SGE tasks using `qstat`, `grep`, and `qdel`.
+
+- [Helpful Quotes](#how-it-classifies)  
+  → Wisdom from Jimmy (real and imagined).
+
+
 
 ---
 
