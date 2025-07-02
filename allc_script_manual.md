@@ -4,7 +4,7 @@
 ## Directories
 
 ### Part 1. Background and Environment Setup
-- [Background on AllCools](#background-allcools)
+- [Background on AllCools](#background---allcools)
 - [Setup Instructions](#prerequisites)  
   → SSH, qlogin, and working directory setup.
 
