@@ -135,6 +135,8 @@ Creates 3 files per cluster in `path_allc_bam_genotype_clst/`, e.g.:
 * Lines without an `mct_x_y` pattern are skipped with a warning.
 * Make sure all file paths and formats follow the expected conventions.
 
+---
+
 
 # `allc_merge.sh`
 *Jimmy's legacy code.*
@@ -166,7 +168,6 @@ Chromosome data: `  /gale/raidix/rdx-7/tnobori/tools/YAP/reference_files/Arabido
 
 **\*** Genotypes: col, met, rdd
 
-```
 
 > *insightful quote from ChatGPT's interpretive hallucination of Jimmy:*
 >
@@ -174,7 +175,8 @@ Chromosome data: `  /gale/raidix/rdx-7/tnobori/tools/YAP/reference_files/Arabido
 >
 > — *Not James Walker, 2025*
 
-```
+---
+
 # `allc_submit.sh`
 
 This script submits **one job per cluster** to merge `.allc.tsv.gz` files using `allc_merge_per_genotype.sh`. Of course, you can automate other scripts by changing the script to run. 
@@ -192,10 +194,9 @@ This script submits **one job per cluster** to merge `.allc.tsv.gz` files using 
 - Logs:  
   Written per inner job to the `logs/` directory
 
-
 ---
 
-# gff_creator.sh
+# `gff_creator.sh`
 
 ## What it does
 - takes all allc files from e.g. `$MERGED_DIR`
