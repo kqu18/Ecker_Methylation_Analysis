@@ -1,9 +1,10 @@
 
+# AllCools Processing Pipeline Manual
 
-## Directories for everything in this manual
-click on the links for details.
+## Directories
 
-### Part 1. Prerequisites & Setup
+### Part 1. Background and Environment Setup
+- [Background on AllCools](#background-allcools)
 - [Setup Instructions](#prerequisites)  
   → SSH, qlogin, and working directory setup.
 
@@ -45,6 +46,8 @@ click on the links for details.
 
 
 ---
+# Background - AllCools
+its cool
 
 
 # Prerequisites
@@ -169,7 +172,7 @@ Chromosome data: `  /gale/raidix/rdx-7/tnobori/tools/YAP/reference_files/Arabido
 **\*** Genotypes: col, met, rdd
 
 
-> *insightful quote from ChatGPT's interpretive hallucination of Jimmy:*
+*insightful quote from ChatGPT's interpretive hallucination of Jimmy:*
 >
 > "One cluster, one shot, one genome — no retries."
 >
