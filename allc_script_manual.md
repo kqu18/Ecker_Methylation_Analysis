@@ -25,6 +25,30 @@ To start having fun with allc data processing, you'd have to follow some steps t
 
 ---
 
+## 📘 Script Index
+
+Quick links to main shell script descriptions in this manual:
+
+- [`parse_allc_by_genotype.sh`](#parse_allc_by_genotypesh)  
+  → Parses `allc.tsv.gz` paths by cluster and genotype.
+
+- [`allc_merge.sh`](#allc_mergesh)  
+  → Merges all `.allc.tsv.gz` files per cluster using `allcools merge-allc`.
+
+- [`allc_merge_per_genotype.sh`](#allc_merge_per_genotypesh)  
+  → Merges `.allc.tsv.gz` files per **genotype** within a single cluster.
+
+- [`allc_submit.sh`](#allc_submitsh)  
+  → Submits one merge job per cluster using the above script.
+
+- [`gff_creator.sh`](#gff_creatorsh)  
+  → Creates `.gff` files from merged allc files for each genotype/context.
+
+- [`gff_submit.sh`](#gff_submitsh)  
+  → Submits one GFF creation job per cluster using the above script.
+
+---
+
 # `parse_allc_by_genotype.sh`
 
 This shell script takes in a directory containing multiple `...allc_paths.txt`, each containing `allc.tsv.gz` files and parses them by cluster (clst0, clst1...) and genotype (`col`, `rdd`, `met`) using `mct_x_y` identifiers embedded in the file paths.
@@ -89,6 +113,7 @@ Creates 3 files per cluster in `path_allc_bam_genotype_clst/`, e.g.:
 
 # `allc_merge.sh`
 *Jimmy's legacy code.*
+
 This shell script runs `allcools merge-allc` to merge `.allc.tsv.gz` files for 16 clusters using input path files (e.g., `clst0_allc_paths.txt`). **If you need parallel processing via the cluster or merge with specififc genotypes see `allc_merge_per_genotype.sh` and `allc_submit.sh`.**
 
 # `allc_merge_per_genotype.sh`
@@ -127,12 +152,11 @@ Chromosome data: `  /gale/raidix/rdx-7/tnobori/tools/YAP/reference_files/Arabido
 ```
 # `allc_submit.sh`
 
-This script submits **one job per cluster** to merge `.allc.tsv.gz` files using `allc_merge_singular.sh`.
+This script submits **one job per cluster** to merge `.allc.tsv.gz` files using `allc_merge_per_genotype.sh`. Of course, you can automate other scripts by changing the script to run. 
 
 ## What It Does
 
-- Loops over clusters
-- Submits a job (`qsub`) for each cluster
+- Loops over clusters and submits a job (`qsub`) for each cluster
 - Passes the cluster ID to the script via the `CLST` environment variable
 
 ## Outputs
@@ -146,6 +170,28 @@ This script submits **one job per cluster** to merge `.allc.tsv.gz` files using 
 
 ---
 
+# gff_creator.sh
+
+## What it does
+- takes all allc files from e.g. `$MERGED_DIR`
+- creates w1 and w100 windowed gff files per methylation context per genotype.
+
+## Outputs
+- gff files saved to `./gffs_by_clst_genotype`
+
+---
+
+# `gff_submit.sh`
+
+This script submits **one job per cluster** to create gff files using `gff_creator.sh`. Of course, you can automate other scripts by changing the script to run. 
+
+## What It Does
+
+- Loops over clusters and submits a job (`qsub`) for each cluster
+- Passes the cluster ID to the script via the `CLST` environment variable
+
+## Outputs
+- follows the script ran.
 
 
 # Other Miscellaneous useful life hacks
