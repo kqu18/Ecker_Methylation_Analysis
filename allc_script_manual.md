@@ -342,6 +342,23 @@ This script submits **one job per cluster** to create gff files using `gff_creat
 ### Outputs
 - follows the script ran.
 
+## `filter_gffs_by_ct_sum.sh`
+
+### What it does
+ - filters gff files in bulk gff paths and only keep w100 gffs with certain c+t threshold (set to c+t>5)
+
+### Outputs
+- results saved to `filtered_w100_gffs_by_clst_genotype` directory
+
+## `meth_hist_ct5.ipynb`
+
+### what it does
+- plots methylation profile per cluster per context as a histogram for w100 gff files in a specified directory.
+- note: adding grid will slow down generation in notebook
+  
+### Outputs
+- directly print out graphs, optionally use 
+
 
 ## Other Miscellaneous useful life hacks
 
