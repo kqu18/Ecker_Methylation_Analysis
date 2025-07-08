@@ -342,13 +342,15 @@ This script submits **one job per cluster** to create gff files using `gff_creat
 ### Outputs
 - follows the script ran.
 
-## `filter_gffs_by_ct_sum.sh`
+## `filter_w100_gffs_by_ctx_meth_ct.sh`
 
 ### What it does
- - filters gff files in bulk gff paths and only keep w100 gffs with certain c+t threshold (set to c+t>5)
+filters gff files in bulk gff paths and categorizes w100 gffs with:
+ -  certain c+t threshold (set to c+t>=5)
+ -  methylation score respective to the context
 
 ### Outputs
-- results saved to `filtered_w100_gffs_by_clst_genotype` directory
+- results saved to `filtered_CONTEXT_w100_gffs_by_clst_genotype` directory
 
 ## `meth_hist_ct5.ipynb`
 
