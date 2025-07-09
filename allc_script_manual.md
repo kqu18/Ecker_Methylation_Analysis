@@ -371,6 +371,9 @@ keeps unique location of gffs after aggregation by rounding postional informatio
 ## Output 
 Yields outer-joined UNIQUE location information of the input folders as `master_{mutant}.{context}.JW.gff` under `~/master_gffs/`
 
+## Note
+submit as cluster job per context by `submit_aggregation.sh`
+
 ---
 
 ## `meth_hist_ct5.ipynb`
