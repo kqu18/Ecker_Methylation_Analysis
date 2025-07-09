@@ -351,6 +351,27 @@ filters gff files in bulk gff paths and categorizes w100 gffs in `./gffs_by_clst
 
 ### Outputs
 - results saved to `filtered_CONTEXT_w100_gffs_by_clst_genotype` directory
+- 
+## `aggregate_gffs.sh`
+
+### What it does
+keeps unique location of gffs after aggregation by rounding postional information to the nearest 100s (in accordance with w100 windows) and only keeps chr1-5.
+
+## Input
+
+```
+/ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/
+├── filtered_w100_gffs_by_clst_genotype/
+│   ├── filtered_CG_w100_gffs_by_clst_genotype/
+│   ├── filtered_CHG_w100_gffs_by_clst_genotype/
+│   ├── filtered_CHH_w100_gffs_by_clst_genotype/
+└── 
+```
+
+## Output 
+Yields outer-joined UNIQUE location information of the input folders as `master_{mutant}.{context}.JW.gff` under `~/master_gffs/`
+
+---
 
 ## `meth_hist_ct5.ipynb`
 
@@ -359,7 +380,9 @@ filters gff files in bulk gff paths and categorizes w100 gffs in `./gffs_by_clst
 - note: adding grid will slow down generation in notebook
   
 ### Outputs
-- directly print out graphs, optionally use 
+- directly print out graphs, optionally use
+
+---
 
 
 ## Other Miscellaneous useful life hacks
