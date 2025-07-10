@@ -350,7 +350,7 @@ filters gff files in bulk gff paths and categorizes w100 gffs in `./gffs_by_clst
  -  methylation score respective to the context
 
 ### Outputs
-- results saved to `filtered_CONTEXT_w100_gffs_by_clst_genotype` directory
+- results saved to `~/filtered_w100_gffs_by_clst_genotype/filtered_CONTEXT_w100_gffs_by_clst_genotype` directory
 - 
 ## `aggregate_gffs.sh`
 
@@ -376,6 +376,19 @@ submit as cluster job per context by `submit_aggregation.sh`
 
 ---
 
+## `run_intersect.sh`
+
+### What it does
+- performs `bedtools intersect` on master gffs and gene segment of interest (e.g. euchromatic/heterochromatic regions)
+- left outer join (-wa) so all location matching on master gff will be kept (-a, first argument)
+
+### Input
+- master gffs in `~/master_gffs/`
+- gene regions gffs in `~/master_gffs/andy_lowercase/`
+
+### Outputs
+- intersect_x_and_y.gff under `~/master_gffs/intersects/`
+
 ## `meth_hist_ct5.ipynb`
 
 ### what it does
@@ -383,7 +396,7 @@ submit as cluster job per context by `submit_aggregation.sh`
 - note: adding grid will slow down generation in notebook
   
 ### Outputs
-- directly print out graphs, optionally use
+- directly print out graphs, optionally use parallel processing
 
 ---
 
@@ -393,3 +406,6 @@ submit as cluster job per context by `submit_aggregation.sh`
 ### qsub:
 - check task ID with certain keyword: `qstat -u $USER | grep KEYWORD | awk '{print $1}'`
 - delete task ID with certain keyword:`qstat -u $USER | grep mrg | awk '{print $1}' | xargs qdel` (*Do not delete all tasks or Jimmy will be mad!!!*)
+
+- hetero genes - CHG, dont care.
+- euchro gene - CG, euchro transposons - CHG, hetero trans - CHG
