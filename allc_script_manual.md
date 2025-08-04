@@ -348,6 +348,9 @@ This script submits **one job per cluster** to create gff files using `gff_creat
 filters gff files in bulk gff paths and categorizes w100 gffs in `./gffs_by_clst_genotype` with:
  -  certain c+t threshold (set to c+t>=5)
  -  methylation score respective to the context
+       thresholds["CG"]=0.2
+       thresholds["CHG"]=0.1
+       thresholds["CHH"]=0.05
 
 ### Outputs
 - results saved to `~/filtered_w100_gffs_by_clst_genotype/filtered_CONTEXT_w100_gffs_by_clst_genotype` directory
