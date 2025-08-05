@@ -342,6 +342,18 @@ This script submits **one job per cluster** to create gff files using `gff_creat
 ### Outputs
 - follows the script ran.
 
+---
+
+## `create_intersect.sh`
+
+This script runs `bedtools intersect` on each mutants and each contexts
+
+### Outputs
+- gff files with overlapping regional information under ./master_gffs/intersects
+
+---
+
+
 ## `filter_w100_gffs_by_ctx_meth_ct.sh`
 
 ### What it does
