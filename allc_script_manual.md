@@ -197,6 +197,98 @@ To start having fun with allc data processing, you'd have to follow some steps t
 ---
 # Shell scripts
 
+## `cluster_csv_to_path_txt.py`
+
+This Python script reads a csv file with Cell ID and cluster information (`merged_cluster_assignments.csv` in this example). It then generates a separate text file for each cluster, listing the full paths to each cell's `allc.tsv.gz` file.
+
+## Input
+
+The script requires two inputs:
+
+**1. Cluster Assignment File:**
+A CSV file named `merged_cluster_assignments.csv` must be located in the same directory as the script. It must contain two columns:
+
+  * `cell_id`: The unique cell identifier.
+  * `merged_cluster`: The cluster number assigned to the cell.
+
+*Example (`merged_cluster_assignments.csv`):*
+
+```csv
+cell_id,merged_cluster
+NJ_221007_P1-2-K15-J3,0
+NJ_221007_P1-2-K15-E16,1
+NJ_221007_P1-2-K15-C15,0
+NJ_221007_P8-5-G10-N10,1
+```
+
+**2. `allc` File Directory Structure:**
+The script *assumes* a specific directory structure on the server. The root of this structure is defined by the `base_path` variable inside the script.
+
+*Example Assumed Directory Structure:*
+
+```
+/ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/
+├── NJ_221007_P1-2-K15/
+│   └── allc/
+│       ├── NJ_221007_P1-2-K15-J3.allc.tsv.gz
+│       ├── NJ_221007_P1-2-K15-E16.allc.tsv.gz
+│       └── NJ_221007_P1-2-K15-C15.allc.tsv.gz
+└── NJ_221007_P8-5-G10/
+    └── allc/
+        └── NJ_221007_P8-5-G10-N10.allc.tsv.gz
+```
+
+## How It Constructs Paths
+
+The script generates the full file path by combining three components:
+
+1.  **`base_path`**: A hardcoded variable in the script.
+      * *Default:* `/ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE`
+2.  **`dir_name`**: Automatically derived from the `cell_id` by **taking all text before the last hyphen (`-`)**.
+      * *Example:* `NJ_221007_P1-2-K15-J3` → `NJ_221007_P1-2-K15`
+3.  **`cell_id`**: The full cell ID from the CSV.
+
+**Final Path Format:**
+`{base_path}/{dir_name}/allc/{cell_id}.allc.tsv.gz`
+
+## Running the Script
+
+1.  **Edit the script:** Before running, you **must** edit the `base_path` variable in the script to match your server's file structure.
+
+2.  **Run the script:** The script will automatically create the output directory (`path_allc_bam_each_clst` by default) using `os.makedirs(..., exist_ok=True)`.
+
+    ```bash
+    python cluster_csv_to_path_txt.py
+    ```
+
+## Output
+
+The script creates a new directory (default: `path_allc_bam_each_clst`) containing one `.txt` file for each cluster found in the input CSV.
+
+*Example Output File Structure:*
+
+```
+./
+├── cluster_csv_to_path_txt.py
+├── merged_cluster_assignments.csv
+└── path_allc_bam_each_clst/
+    ├── clst0_allc_paths.txt
+    ├── clst1_allc_paths.txt
+    └── ... 
+```
+
+*Example File Content (`clst0_allc_paths.txt`):*
+
+```
+/ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/NJ_221007_P1-2-K15/allc/NJ_221007_P1-2-K15-J3.allc.tsv.gz
+/ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/NJ_221007_P1-2-K15/allc/NJ_221007_P1-2-K15-C15.allc.tsv.gz
+```
+
+## Notes
+
+  * You **must** edit the `base_path` variable inside the script for it to generate the correct paths for your system.
+  * The script assumes the input file is named exactly `merged_cluster_assignments.csv`.
+
 ## `parse_allc_by_genotype.sh`
 
 This shell script takes in a directory containing multiple `...allc_paths.txt`, each containing `allc.tsv.gz` files and parses them by cluster (clst0, clst1...) and genotype (`col`, `rdd`, `met`) using `mct_x_y` identifiers embedded in the file paths.
