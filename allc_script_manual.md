@@ -13,6 +13,9 @@
 ### Part 2. Scripts
 
 #### 🔁 Processing Scripts
+- [`clst_csv_to_path_txt.sh`](#clst_csv_to_path_txtsh)  
+  → Parses `cluster_csv` files to txt containing list of paths for clusters.
+
 - [`parse_allc_by_genotype.sh`](#parse_allc_by_genotypesh)  
   → Parses `allc.tsv.gz` paths by cluster and genotype.
 
