@@ -197,97 +197,110 @@ To start having fun with allc data processing, you'd have to follow some steps t
 ---
 # Shell scripts
 
-## `cluster_csv_to_path_txt.py`
+## Cluster CSV to Path TXT (Shell Script)
 
-This Python script reads a csv file with Cell ID and cluster information (`merged_cluster_assignments.csv` in this example). It then generates a separate text file for each cluster, listing the full paths to each cell's `allc.tsv.gz` file.
+This shell script (`clst_csv_to_path_txt.sh`) reads a CSV file containing Cell IDs and cluster assignments. It generates a separate text file for each cluster, listing the full paths to each cell's `allc.tsv.gz` file.
 
-## Input
+## Features
+* **Mode Support:** Accepts optional arguments (e.g., `SS`, `WW`) to process specific input files (e.g., `cell_cluster_assignment.SS.csv`).
+* **Windows Compatibility:** Automatically strips hidden Windows carriage return (`\r`) characters from input files to prevent path errors.
 
-The script requires two inputs:
+## Input Requirements
 
-**1. Cluster Assignment File:**
-A CSV file named `merged_cluster_assignments.csv` must be located in the same directory as the script. It must contain two columns:
+### 1. Cluster Assignment File
+The script looks for a CSV file in the same directory. The filename depends on how you run the script:
 
-  * `cell_id`: The unique cell identifier.
-  * `merged_cluster`: The cluster number assigned to the cell.
+* **Default Mode:** Looks for `cell_cluster_assignment.csv`.
+* **Argument Mode (e.g., "SS"):** Looks for `cell_cluster_assignment.SS.csv`.
 
-*Example (`merged_cluster_assignments.csv`):*
+**CSV Format:**
+Must contain a header row, followed by two columns:
+1. `cell_id`: The unique cell identifier.
+2. `merged_cluster`: The cluster number.
 
+**Example:**
 ```csv
 cell_id,merged_cluster
 NJ_221007_P1-2-K15-J3,0
 NJ_221007_P1-2-K15-E16,1
-NJ_221007_P1-2-K15-C15,0
-NJ_221007_P8-5-G10-N10,1
 ```
 
-**2. `allc` File Directory Structure:**
-The script *assumes* a specific directory structure on the server. The root of this structure is defined by the `base_path` variable inside the script.
+### 2. `allc` File Directory Structure
+The script assumes the data resides in a specific root directory defined by the `BASE_PATH` variable inside the script.
 
-*Example Assumed Directory Structure:*
+**Default Base Path:** `/ceph/MethDev/Arab6_with_TE/mCT_with_TE`
 
-```
-/ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/
-├── NJ_221007_P1-2-K15/
+**Assumed Structure:**
+```text
+/ceph/MethDev/Arab6_with_TE/mCT_with_TE/
+├── NJ_221007_P1-2-K15/              <-- Derived Directory Name
 │   └── allc/
 │       ├── NJ_221007_P1-2-K15-J3.allc.tsv.gz
-│       ├── NJ_221007_P1-2-K15-E16.allc.tsv.gz
-│       └── NJ_221007_P1-2-K15-C15.allc.tsv.gz
-└── NJ_221007_P8-5-G10/
-    └── allc/
-        └── NJ_221007_P8-5-G10-N10.allc.tsv.gz
+│       └── ...
+└── ...
 ```
 
 ## How It Constructs Paths
 
-The script generates the full file path by combining three components:
+The script generates the full file path by combining components:
 
-1.  **`base_path`**: A hardcoded variable in the script.
-      * *Default:* `/ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE`
-2.  **`dir_name`**: Automatically derived from the `cell_id` by **taking all text before the last hyphen (`-`)**.
-      * *Example:* `NJ_221007_P1-2-K15-J3` → `NJ_221007_P1-2-K15`
-3.  **`cell_id`**: The full cell ID from the CSV.
+1. **`base_path`**: Hardcoded in the script.
+2. **`dir_name`**: Derived from `cell_id` by removing the text after the last hyphen.
+   * *Example:* `NJ_221007_P1-2-K15-J3` → `NJ_221007_P1-2-K15`
+3. **`cell_id`**: The full ID from the CSV.
 
 **Final Path Format:**
 `{base_path}/{dir_name}/allc/{cell_id}.allc.tsv.gz`
 
 ## Running the Script
 
-1.  **Edit the script:** Before running, you **must** edit the `base_path` variable in the script to match your server's file structure.
+First, ensure the script is executable:
+```bash
+chmod +x clst_csv_to_path_txt.sh
+```
 
-2.  **Run the script:** The script will automatically create the output directory (`path_allc_bam_each_clst` by default) using `os.makedirs(..., exist_ok=True)`.
+### Option A: Default Behavior
+Processes `cell_cluster_assignment.csv` and outputs standard text files.
+```bash
+./clst_csv_to_path_txt.sh
+```
 
-    ```bash
-    python cluster_csv_to_path_txt.py
-    ```
+### Option B: With Optional Argument (e.g., SS or WW)
+Processes `cell_cluster_assignment.SS.csv` and adds `.SS` to the output filenames.
+```bash
+./clst_csv_to_path_txt.sh SS
+```
+*(You can replace `SS` with `WW` or any other suffix).*
 
 ## Output
 
-The script creates a new directory (default: `path_allc_bam_each_clst`) containing one `.txt` file for each cluster found in the input CSV.
+The script outputs to the directory: `path_allc_bam_each_clst/`.
 
-*Example Output File Structure:*
-
-```
-./
-├── cluster_csv_to_path_txt.py
-├── merged_cluster_assignments.csv
-└── path_allc_bam_each_clst/
-    ├── clst0_allc_paths.txt
-    ├── clst1_allc_paths.txt
-    └── ... 
+**Example Output (Default Run):**
+```text
+./path_allc_bam_each_clst/
+├── clst0_allc_paths.txt
+├── clst1_allc_paths.txt
+└── ...
 ```
 
-*Example File Content (`clst0_allc_paths.txt`):*
-
+**Example Output (Run with "SS" argument):**
+```text
+./path_allc_bam_each_clst/
+├── clst0_allc_paths.SS.txt
+├── clst1_allc_paths.SS.txt
+└── ...
 ```
-/ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/NJ_221007_P1-2-K15/allc/NJ_221007_P1-2-K15-J3.allc.tsv.gz
-/ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/NJ_221007_P1-2-K15/allc/NJ_221007_P1-2-K15-C15.allc.tsv.gz
+
+**Example File Content:**
+```text
+/ceph/MethDev/Arab6_with_TE/mCT_with_TE/NJ_221007_P1-2-K15/allc/NJ_221007_P1-2-K15-J3.allc.tsv.gz
+/ceph/MethDev/Arab6_with_TE/mCT_with_TE/NJ_221007_P1-2-K15/allc/NJ_221007_P1-2-K15-C15.allc.tsv.gz
 ```
 
 ## Notes
-
-  * You **must** edit the `base_path` variable inside the script for it to generate the correct paths for your system.
-  * The script assumes the input file is named exactly `merged_cluster_assignments.csv`.
+1. **Edit Base Path:** If your server directory changes, you must edit the `BASE_PATH` variable at the top of `clst_csv_to_path_txt.sh`.
+2. **Windows Fix:** The script includes a safety feature (`gsub(/\r/, "")`) to handle CSV files created on Windows, preventing errors with file paths containing hidden return characters.
 
 ## `parse_allc_by_genotype.sh`
 
