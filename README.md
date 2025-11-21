@@ -83,5 +83,9 @@ cd /ceph/MethDev/JW240627--at-snmCT_with_TE/mCT_with_TE/
 chromosome    position    strand    context    mc_count    total_count    methylated
 `chr1    10468    +    CG    10    12    1`
 
+# new location
+cmt2 and colGPC2
+/ceph/MethDev/JW240627--at-snmCT_with_TE/Arab_22/mCT_with_TE/
+
 
 
