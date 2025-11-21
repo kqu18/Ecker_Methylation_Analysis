@@ -87,5 +87,8 @@ chromosome    position    strand    context    mc_count    total_count    methyl
 cmt2 and colGPC2
 /ceph/MethDev/JW240627--at-snmCT_with_TE/Arab_22/mCT_with_TE/
 
+CMT3, ColGPC, DCL234
+/ceph/MethDev/Aryan/Arab21-at-snmCT_with_TE/mCT_with_TE/
+
 
 
