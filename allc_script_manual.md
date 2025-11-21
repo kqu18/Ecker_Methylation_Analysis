@@ -197,9 +197,9 @@ To start having fun with allc data processing, you'd have to follow some steps t
 ---
 # Shell scripts
 
-## Cluster CSV to Path TXT (Shell Script)
+## `clst_csv_to_path_txt.sh`
 
-This shell script (`clst_csv_to_path_txt.sh`) reads a CSV file containing Cell IDs and cluster assignments. It generates a separate text file for each cluster, listing the full paths to each cell's `allc.tsv.gz` file.
+This shell script reads a CSV file containing Cell IDs and cluster assignments. It generates a separate text file for each cluster, listing the full paths to each cell's `allc.tsv.gz` file.
 
 ## Features
 * **Mode Support:** Accepts optional arguments (e.g., `SS`, `WW`) to process specific input files (e.g., `cell_cluster_assignment.SS.csv`).
